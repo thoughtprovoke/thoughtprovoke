@@ -1,0 +1,24 @@
+<div id="leaderboard-overlay" style="display:none;">
+    <h2>ALL-TIME ACES</h2>
+    <div id="leaderboard-list">
+        <!-- Rows will be injected here -->
+    </div>
+    <hr>
+    <div id="pb-row">
+        <span>YOUR BEST:</span>
+        <span id="pb-display">--:--.---</span>
+    </div>
+    <button onclick="restartGame()">REDEPLOY</button>
+</div>
+
+<style>
+    #leaderboard-overlay {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.85); border: 2px solid #ffd700;
+        padding: 30px; color: #ffd700; font-family: 'Courier New', monospace;
+        width: 350px; text-align: center; border-radius: 10px;
+    }
+    .score-row { display: flex; justify-content: space-between; margin: 10px 0; }
+    #pb-row { font-weight: bold; font-size: 1.2em; color: #ffffff; }
+    #leaderboard-list { margin-bottom: 20px; }
+</style>
