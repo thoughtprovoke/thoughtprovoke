@@ -1,0 +1,26 @@
+.on-pb-track {
+    /* Carbon Fiber Texture */
+    background: linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+                linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0,
+                linear-gradient(27deg, #222 5px, transparent 5px) 0 10px,
+                linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+                #1a1a1a;
+    background-size: 20px 20px;
+    border: 4px solid #c0c0c0;
+
+    /* Silver Neon Glow: Multiple layers for "bloom" effect */
+    box-shadow: 
+        inset 0 0 15px #e0e0e0, 
+        inset 0 0 30px #ffffff,
+        0 0 10px #c0c0c0;
+    
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.on-pb-track #live-timer {
+    color: #ffffff;
+    text-shadow: 
+        0 0 5px #ffffff, 
+        0 0 15px #c0c0c0, 
+        0 0 30px #a0a0a0;
+}
