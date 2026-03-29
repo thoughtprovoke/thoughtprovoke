@@ -1,0 +1,13 @@
+<div id="difficulty-menu">
+    <button onclick="setDifficulty('EASY')">EASY</button>
+    <button onclick="setDifficulty('MEDIUM')" class="active">MEDIUM</button>
+    <button onclick="setDifficulty('HARD')">HARD</button>
+</div>
+
+<style>
+    #difficulty-menu button {
+        margin: 5px; padding: 10px; background: #333; color: #00ff00;
+        border: 1px solid #00ff00; cursor: pointer;
+    }
+    #difficulty-menu button.active { background: #00ff00; color: #000; }
+</style>
