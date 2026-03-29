@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Space Invaders Starter</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; }
+        #ui { position: absolute; top: 10px; left: 10px; color: white; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="ui">Score: <span id="score">0</span> | Use Arrows to Move, Space to Shoot</div>
+    <script type="importmap">
+        { "imports": { "three": "https://unpkg.com" } }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- Setup Scene ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(0, 10, 10);
+        scene.add(light, new THREE.AmbientLight(0x404040));
+
+        // --- Player ---
+        const playerGeo = new THREE.BoxGeometry(1, 0.5, 1);
+        const playerMat = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        const player = new THREE.Mesh(playerGeo, playerMat);
+        player.position.y = -4;
+        scene.add(player);
+
+        // --- Invaders ---
+        const invaders = [];
+        const invaderGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+        const invaderMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 8; col++) {
+                const invader = new THREE.Mesh(invaderGeo, invaderMat);
+                invader.position.set(col * 1.5 - 5, row * 1.5 + 1, 0);
+                scene.add(invader);
+                invaders.push(invader);
+            }
+        }
+
+        // --- Logic Vars ---
+        const bullets = [];
+        let score = 0;
+        const keys = {};
+        camera.position.z = 8;
+
+        window.addEventListener('keydown', (e) => keys[e.code] = true);
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
+
+        function shoot() {
+            const bulletGeo = new THREE.SphereGeometry(0.1);
+            const bulletMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+            const bullet = new THREE.Mesh(bulletGeo, bulletMat);
+            bullet.position.set(player.position.x, player.position.y + 0.5, 0);
+            scene.add(bullet);
+            bullets.push(bullet);
+        }
+
+        window.addEventListener('keydown', (e) => { if(e.code === 'Space') shoot(); });
+
+        // --- Game Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Player Movement
+            if (keys['ArrowLeft'] && player.position.x > -7) player.position.x -= 0.1;
+            if (keys['ArrowRight'] && player.position.x < 7) player.position.x += 0.1;
+
+            // Bullet Logic
+            bullets.forEach((b, bIdx) => {
+                b.position.y += 0.2;
+                if (b.position.y > 6) {
+                    scene.remove(b);
+                    bullets.splice(bIdx, 1);
+                }
+
+                // Collision Detection
+                invaders.forEach((inv, iIdx) => {
+                    if (b.position.distanceTo(inv.position) < 0.6) {
+                        scene.remove(inv);
+                        invaders.splice(iIdx, 1);
+                        scene.remove(b);
+                        bullets.splice(bIdx, 1);
+                        score += 10;
+                        document.getElementById('score').innerText = score;
+                    }
+                });
+            });
+
+            // Invader Hover Effect
+            invaders.forEach(inv => {
+                inv.rotation.y += 0.02;
+                inv.position.x += Math.sin(Date.now() * 0.001) * 0.01;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
