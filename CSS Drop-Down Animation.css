@@ -1,0 +1,23 @@
+#leaderboard-overlay {
+    /* Existing centering styles */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Animation call */
+    animation: dropInFade 1.2s ease-out forwards;
+}
+
+@keyframes dropInFade {
+    0% {
+        opacity: 0;
+        /* Start higher up than the final centered 50% */
+        transform: translate(-50%, -150%); 
+    }
+    100% {
+        opacity: 1;
+        /* Settle back to center */
+        transform: translate(-50%, -50%);
+    }
+}
